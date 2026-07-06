@@ -16,7 +16,7 @@
       flex-direction: column;
     }
 
-    /* ── HEADER ── */
+
     header {
       position: relative;
       text-align: center;
@@ -56,7 +56,7 @@
       line-height: 1.6;
     }
 
-    /* ── MAIN ── */
+
     main {
       flex: 1;
       padding: 3.5rem 2rem;
@@ -65,7 +65,7 @@
       width: 100%;
     }
 
-    /* ── GRID ── */
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -75,7 +75,7 @@
     @media (max-width: 700px) { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 420px) { .grid { grid-template-columns: 1fr; } }
 
-    /* ── THUMBNAIL ── */
+
     .thumb {
       display: block;
       cursor: pointer;
@@ -91,7 +91,7 @@
 
     .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-    /* ── VIDEO ── */
+
     .video-section {
       background: #111;
       padding: 3rem 2rem;
@@ -119,7 +119,6 @@
 
     .video-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
 
-    /* ── PRICING SECTION ── */
     .pricing-section {
       background: #f9f7f4;
       padding: 2.5rem 2rem;
@@ -216,7 +215,7 @@
       line-height: 1.6;
     }
 
-    /* policies */
+
     .policies {
       background: #f0ede8;
       border-radius: 10px;
@@ -244,7 +243,6 @@
 
     .policies li::before { content: "· "; color: #999; }
 
-    /* ── LIGHTBOX ── */
     .lightbox {
       display: none;
       position: fixed;
@@ -327,7 +325,6 @@
 
     .lightbox-close:hover { color: #fff; }
 
-    /* ── FOOTER ── */
     footer {
       text-align: center;
       padding: 1.75rem 2rem;
@@ -340,7 +337,7 @@
 </head>
 <body>
 
-  <!-- ══ HEADER ══ -->
+
   <header>
     <video class="header-bg" autoplay muted loop playsinline>
       <source src="supidodtled.mp4" type="video/mp4" />
@@ -351,7 +348,7 @@
     </div>
   </header>
 
-  <!-- ══ GALLERY ══ -->
+
   <main>
     <div class="grid" id="gallery">
 
@@ -412,7 +409,7 @@
     </div>
   </main>
 
-  <!-- ══ VIDEO ══ -->
+
   <section class="video-section">
     <h2>Watch My Work</h2>
     <div class="video-wrap">
@@ -425,7 +422,6 @@
     </div>
   </section>
 
-  <!-- ══ PRICING ══ -->
   <section class="pricing-section">
     <button class="pricing-toggle" id="pricing-btn" aria-expanded="false" aria-controls="pricing-panel">
       Pricing &amp; Services
@@ -435,18 +431,14 @@
     <div class="pricing-panel" id="pricing-panel">
       <table class="services">
         <thead>
-          <tr>
-            <th>Service</th>
-            <th>Description</th>
-            <th>Price</th>
-          </tr>
+
         </thead>
         <tbody>
           <tr>
             <td>Full Custom Body Texture</td>
             <td>
-              Substance Painter + Krita work, materials set up properly on your avatar.
-              <div class="desc">Simple end: recolors, tattoos, patterns. Complex end: full character recreation from ref sheet — custom brushes, masks for matcaps/AudioLink, AO baking, thorough communication throughout.</div>
+              Substance Painter, Krita, Unity work. 
+              <div class="desc">Simple end: recolors, tattoos, patterns. Complex end: full character recreation from ref sheet — custom brushes, masks for matcaps/AudioLink, map baking.</div>
             </td>
             <td>$40–$100</td>
           </tr>
@@ -454,32 +446,25 @@
             <td>Accessories</td>
             <td>
               Pins, glasses, staffs, swords, chains — things attached to your character but not fused to the base mesh.
-              <div class="desc">Can include modeling, unwrapping, Substance Painter work, material setup, rigging, weight painting, physbones, and blend shapes. Simple low-poly pins on the low end; animated lantern staffs with contact-based grabbing on the high end.</div>
+              <div class="desc">Can include modeling, unwrapping, Substance Painter work, material setup, rigging, weight painting, physbones, blend shapes, animating, contacts, particles - the price depends on complexity.</div>
             </td>
             <td>$20–$65</td>
           </tr>
           <tr>
             <td>Garment Refit</td>
             <td>
-              You bought clothing not made for your base. I'll fit it, weight paint it, and add blend shapes to move with your avatar.
-              <div class="desc">Sometimes simple. Sometimes involves retopology, re-unwrapping, Substance Painter work, and Unity setup. Price reflects that range.</div>
+              You have some clothing or something not made for your base-  I'll fit it, weight paint it, and add necessary blend shapes. 
+              <div class="desc">Sometimes this can involve retopology, re-unwrapping, Substance Painter work, tile discards, or other stuff. Pricing depends on complexity.</div>
             </td>
             <td>$40–$80</td>
           </tr>
-          <tr>
-            <td>Hair / Asset Rework</td>
-            <td>
-              Custom texture on existing hair or assets, physbones setup, rigging if needed.
-              <div class="desc">May involve retopology, re-unwrapping, Substance Painter, Krita, Blender, Unity. Value is approximate — complexity varies.</div>
-            </td>
-            <td>~$20</td>
-          </tr>
+      
           <tr>
             <td>Teaching</td>
             <td>
-              Want to learn it yourself? I'll get on call with you over screenshare, walk you through your specific goal, and explain the why — so you can do it again on your own.
+              Want to learn it yourself? I'll get on call with you over screenshare, walk you through your specific goal, and explain things, so you can do it again on your own.
             </td>
-            <td>$20/hr</td>
+            <td>$15/hr</td>
           </tr>
         </tbody>
       </table>
@@ -487,22 +472,21 @@
       <div class="policies">
         <strong>Policies &amp; Notes</strong>
         <ul>
-          <li>Quotes are given upfront and itemized. Anything outside the original quote is a new line item.</li>
-          <li>Two revision rounds included. New features are not revisions.</li>
-          <li>Rush jobs (under 1 week delivery): half payment when work begins, rest on delivery. Otherwise payment on delivery only.</li>
-          <li>I reserve the right to quote differently than listed — these ranges are a guide, not a guarantee.</li>
-          <li>Stacked work gets a significant discount. If you need hair done while I'm already doing textures and accessories, that hair line item may be only ~25% of the standalone price.</li>
+          <li>Quotes are given upfront and itemized. Anything outside the original quote is a new line item. </li>
+          <li>Two revision rounds included. New features are not revisions :( though they may be discounted with stacked work :)</li>
+          <li>Half payment when work begins, rest on delivery, unless otherwise arranged. </li>
+          <li>I reserve the right to quote differently than listed here. The price ranges given are approximate and based on my past experience.</li>
+          
         </ul>
       </div>
     </div>
   </section>
 
-  <!-- ══ FOOTER ══ -->
   <footer>
     &copy; 2026 all paws reserved
   </footer>
 
-  <!-- ══ LIGHTBOX ══ -->
+
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Full size image">
     <button class="lightbox-close" id="lb-close" aria-label="Close">&times;</button>
     <div class="lb-inner">
@@ -517,7 +501,7 @@
   </div>
 
   <script>
-    // ── pricing toggle ──
+
     const pricingBtn   = document.getElementById('pricing-btn');
     const pricingPanel = document.getElementById('pricing-panel');
 
@@ -526,7 +510,7 @@
       pricingBtn.setAttribute('aria-expanded', open);
     });
 
-    // ── lightbox ──
+
     const gallery  = document.getElementById('gallery');
     const lightbox = document.getElementById('lightbox');
     const lbImg    = document.getElementById('lb-img');
