@@ -16,7 +16,6 @@
       flex-direction: column;
     }
 
-    /* ── HEADER ── */
     header {
       position: relative;
       text-align: center;
@@ -59,7 +58,7 @@
       line-height: 1.6;
     }
 
-    /* ── MAIN ── */
+
     main {
       flex: 1;
       padding: 3.5rem 2rem;
@@ -68,7 +67,7 @@
       width: 100%;
     }
 
-    /* ── GRID ── */
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -83,7 +82,6 @@
       .grid { grid-template-columns: 1fr; }
     }
 
-    /* ── THUMBNAIL ── */
     .thumb {
       display: block;
       cursor: pointer;
@@ -107,7 +105,7 @@
       display: block;
     }
 
-    /* ── YOUTUBE SECTION ── */
+
     .video-section {
       background: #111;
       padding: 3rem 2rem;
@@ -140,7 +138,7 @@
       display: block;
     }
 
-    /* ── LIGHTBOX ── */
+
     .lightbox {
       display: none;
       position: fixed;
@@ -163,7 +161,7 @@
       cursor: default;
     }
 
-    /* ── INFO PANEL (left) ── */
+
     .lb-panel {
       flex: 0 0 240px;
       background: rgba(255,255,255,0.07);
@@ -192,7 +190,6 @@
       white-space: pre-line;
     }
 
-    /* ── IMAGE (right) ── */
     .lb-img-wrap {
       flex: 1 1 auto;
       display: flex;
@@ -243,7 +240,7 @@
 </head>
 <body>
 
-  <!-- ══ HEADER ══ -->
+
   <header>
     <video class="header-bg" autoplay muted loop playsinline>
       <source src="supidodtled.mp4" type="video/mp4" />
@@ -254,20 +251,20 @@
     </div>
   </header>
 
-  <!-- ══ GALLERY ══ -->
+
   <main>
     <div class="grid" id="gallery">
 
       <a class="thumb" href="03.png"
          data-title="Lambie"
          data-desc="This was a full texture edit - the client had a ref sheet, and I worked up every fine detail in Substance Painter.">
-        <img src="03.png" alt="Avatar example 1" />
+        <img src="03.png" />
       </a>
 
       <a class="thumb" href="02.png"
          data-title="Kompressor"
          data-desc="Client supplied ref sheet! I worked up every detail in Substance Painter from an empty project. I baked mesh maps, set up emission masks for the stripes, enabled audiolink for those emissions. I used Krita to make custom Substance brushes to match the source material. I modeled and textured low-poly tail accessories and weight painted them to her tail so that each one moved with the tail, but none of them stretched or deformed. I applied lots of add-ons and accessories that she found online, and re-unwrapped and textured her hair. I set up a custom eye shader so she could have the pupil straight from her ref sheet, and an animated kaleidoscope effect in the iris. Her version of this base had extra blend shapes that the add-on clothes weren't designed for, so I added new blend shapes to that clothing and new blend shapes to the body to prevent clipping. This one was so much fun!">
-        <img src="02.png" alt="Avatar example 2" />
+        <img src="02.png"/>
       </a>
 
       <a class="thumb" href="05.png"
@@ -277,7 +274,7 @@
         so embarassing, I really had no idea what I was doing back then lol. But, I still did a pretty good job especially with how little I knew. 
         Custom tail with a little head and face, and a cobra-style hood which has physbones, custom jewelery, and is rigged in a clever way which keeps the bottom of 
         the hood attached to the body, despite the mesh being part of the head. Vulthra avis can be tricky to work on especially for beginners :3">
-        <img src="05.png" alt="Avatar example 3" />
+        <img src="05.png"/>
       </a>
 
       <a class="thumb" href="04.png"
@@ -287,7 +284,7 @@
         rigged, weight painted, and fully textured! This is one of the coolest looking avis I've worked on. 
         Fully custom medusa type tentacle hair, and they can grab and pull their zipper to open up their body! Also, 
         their mouth has a zipper, which automatically opens and closes depending on whether their mic is muted. Learned a lot about contacts doing this one!">
-        <img src="04.png" alt="Avatar example 4" />
+        <img src="04.png"/>
       </a>
 
       <a class="thumb" href="06.png"
@@ -298,7 +295,7 @@
         It essentially lets you hide or show different parts of a mesh, so that one clothes mesh can contain multiple clothing options, for example. This client also 
         bought an overalls mesh from Sketchfab which wasnt designed for this base. 
         So I re-scultped it, did a bit of retopologizing, re-unwrapped and re-textured it from scratch in substance painter before rigging and weight painting it :3">
-        <img src="06.png" alt="Avatar example 5" />
+        <img src="06.png"/>
       </a>
 
       <a class="thumb" href="random.png"
@@ -309,18 +306,13 @@
         Fully custom , from-scratch magic staff with animated bits, and even gesture-driven particle spells which could hang out in worldspace :)
         Overhead animated N64 logo with audiolink.
         And I made those heart glasses from scratch :)">
-        <img src="random.png" alt="Avatar example 6" />
+        <img src="random.png"/>
       </a>
 
     </div>
   </main>
 
-  <!-- ══ YOUTUBE VIDEO ══ -->
-  <!--
-    Replace VIDEO_ID below with your YouTube video ID.
-    Example: if your URL is https://www.youtube.com/watch?v=dQw4w9WgXcQ
-    then VIDEO_ID is: dQw4w9WgXcQ
-  -->
+
   <section class="video-section">
     <h2>Watch My Work</h2>
     <div class="video-wrap">
