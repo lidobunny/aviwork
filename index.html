@@ -184,7 +184,6 @@ body {
 
     .services thead th:last-child { text-align: right; }
 
-    .services tbody tr { border-bottom: 1px solid rgba(0,0,0,0.07); }
     .services tbody tr:last-child { border-bottom: none; }
 
     .services tbody td {
@@ -193,20 +192,27 @@ body {
       line-height: 1.55;
     }
 
+    .services tbody tr {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      border-bottom: 4px double rgba(0,0,0,0.35);
+      padding: 1rem 0;
+    }
+
     .services tbody td:first-child {
       font-weight: 700;
-      white-space: nowrap;
-      width: 1%;
-      padding-right: 1.5rem;
+      padding-right: 0;
+      font-size: 1.6rem;
     }
 
     .services tbody td:last-child {
-      text-align: right;
-      white-space: nowrap;
+      text-align: left;
       font-weight: 600;
       color: #444;
-      width: 1%;
-      padding-left: 1.5rem;
+      padding-left: 0;
+      padding-top: 0;
     }
 
     .services tbody td .desc {
