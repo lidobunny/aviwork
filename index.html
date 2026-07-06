@@ -107,6 +107,39 @@
       display: block;
     }
 
+    /* ── YOUTUBE SECTION ── */
+    .video-section {
+      background: #111;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .video-section h2 {
+      color: #fff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      opacity: 0.85;
+    }
+
+    .video-wrap {
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 16 / 9;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
     /* ── LIGHTBOX ── */
     .lightbox {
       display: none;
@@ -156,6 +189,7 @@
       font-size: 0.88rem;
       line-height: 1.65;
       color: rgba(255,255,255,0.72);
+      white-space: pre-line;
     }
 
     /* ── IMAGE (right) ── */
@@ -175,7 +209,6 @@
       display: block;
     }
 
-    /* on narrow screens stack vertically */
     @media (max-width: 700px) {
       .lb-inner { flex-direction: column-reverse; align-items: center; }
       .lb-panel  { flex: 0 0 auto; width: 100%; max-width: 480px; align-self: auto; }
@@ -212,21 +245,9 @@
 
   <!-- ══ HEADER ══ -->
   <header>
-    <!--
-      BACKGROUND OPTIONS — pick one and delete the other:
-
-      OPTION A — video:
-        <video class="header-bg" autoplay muted loop playsinline>
-          <source src="your-background.mp4" type="video/mp4" />
-        </video>
-
-      OPTION B — animated GIF:
-        <img class="header-bg" src="your-background.gif" alt="" />
-    -->
     <video class="header-bg" autoplay muted loop playsinline>
       <source src="supidodtled.mp4" type="video/mp4" />
     </video>
-
     <div class="header-content">
       <h1>LidoBunny's Avatar Work</h1>
       <p>A centralized place to see examples, pricing, and contact info</p>
@@ -234,13 +255,6 @@
   </header>
 
   <!-- ══ GALLERY ══ -->
-  <!--
-    HOW TO FILL IN YOUR INFO:
-    Each .thumb link has two data attributes you edit:
-      data-title="Your title here"
-      data-desc="Your description paragraph here."
-    Just type whatever you want in those quotes.
-  -->
   <main>
     <div class="grid" id="gallery">
 
@@ -292,15 +306,32 @@
          data-desc="Until I put more of my work on this page, here's a placeholder - a few other random things I've done. 
         Bandos chestplate and party crown from Runescape for the Deira.
         Custom substance painter work on the Lopkin coat, with audiolink stuff!
-        Fully custom , from-scratch magic staff with animated bits, and even gesture-driven particle "spells" which could hang out in worldspace :)
+        Fully custom , from-scratch magic staff with animated bits, and even gesture-driven particle spells which could hang out in worldspace :)
         Overhead animated N64 logo with audiolink.
         And I made those heart glasses from scratch :)">
         <img src="random.png" alt="Avatar example 6" />
       </a>
 
-
     </div>
   </main>
+
+  <!-- ══ YOUTUBE VIDEO ══ -->
+  <!--
+    Replace VIDEO_ID below with your YouTube video ID.
+    Example: if your URL is https://www.youtube.com/watch?v=dQw4w9WgXcQ
+    then VIDEO_ID is: dQw4w9WgXcQ
+  -->
+  <section class="video-section">
+    <h2>Watch My Work</h2>
+    <div class="video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/EuIQ98gDGkI"
+        title="lil ad"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </section>
 
   <!-- ══ FOOTER ══ -->
   <footer>
