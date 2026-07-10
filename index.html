@@ -93,6 +93,63 @@ body {
     .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 
+    .other-work {
+      padding: 0 2rem 3.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .other-work h2 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: #444;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .scroll-row-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .scroll-row {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .scroll-row::-webkit-scrollbar { display: none; }
+
+    .scroll-row .thumb {
+      flex: 0 0 140px;
+      width: 140px;
+    }
+
+    .scroll-arrow {
+      flex: 0 0 auto;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(0,0,0,0.15);
+      background: #fff;
+      color: #1a1a1a;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .scroll-arrow:hover { background: #f0ede8; border-color: rgba(0,0,0,0.3); }
+
     .video-section {
       background: #111;
       padding: 3rem 2rem;
@@ -416,12 +473,102 @@ body {
     </div>
   </main>
 
+  <section class="other-work">
+    <h2>Other Work</h2>
+    <div class="scroll-row-wrap">
+      <button class="scroll-arrow" id="ow-prev" aria-label="Scroll left">&#8249;</button>
+      <div class="scroll-row" id="other-gallery">
+
+      <a class="thumb" href="03.png"
+         data-title="Lambie"
+         data-desc="This was a full texture edit - the client had a ref sheet, and I worked up every fine detail in Substance Painter.">
+        <img src="03.png" />
+      </a>
+
+      <a class="thumb" href="02.png"
+         data-title="Kompressor"
+         data-desc="Client supplied ref sheet! I worked up every detail in Substance Painter from an empty project.">
+        <img src="02.png" />
+      </a>
+
+      <a class="thumb" href="05.png"
+         data-title="Cobra Kobold"
+         data-desc="Custom tail with a little head and face, and a cobra-style hood which has physbones, custom jewelery.">
+        <img src="05.png" />
+      </a>
+
+      <a class="thumb" href="04.png"
+         data-title="ZipperCat"
+         data-desc="Fully custom, from scratch business suit, modeled, rigged, weight painted, and fully textured!">
+        <img src="04.png" />
+      </a>
+
+      <a class="thumb" href="06.png"
+         data-title="Madam Cheesey Stinkems"
+         data-desc="Transferred old clothes over, and carried over the UV Tile Discards, plus new radial menu controls.">
+        <img src="06.png" />
+      </a>
+
+      <a class="thumb" href="random.png"
+         data-title="Random"
+         data-desc="A few other random things I've done — placeholder until more pieces are added here.">
+        <img src="random.png" />
+      </a>
+
+      <a class="thumb" href="03.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="03.png" />
+      </a>
+
+      <a class="thumb" href="02.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="02.png" />
+      </a>
+
+      <a class="thumb" href="05.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="05.png" />
+      </a>
+
+      <a class="thumb" href="04.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="04.png" />
+      </a>
+
+      <a class="thumb" href="06.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="06.png" />
+      </a>
+
+      <a class="thumb" href="random.png"
+         data-title="Placeholder"
+         data-desc="Placeholder slot — swap this image and description for a real piece.">
+        <img src="random.png" />
+      </a>
+
+      </div>
+      <button class="scroll-arrow" id="ow-next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
 
   <section class="video-section">
-    <h2>Ad</h2>
+    <h2>Commission Queue</h2>
+    <div class="video-wrap" style="aspect-ratio: 16/10;">
+      <iframe src="https://trello.com/b/S4IejjiF/avatar-commission-queue.html" title="Commission Queue"></iframe>
+    </div>
+  </section>
+
+  <section class="video-section">
+    <h2>Watch My Work</h2>
     <div class="video-wrap">
       <iframe
-        src="https://www.youtube.com/embed/BKakboDy3EE"
+        src="https://www.youtube.com/embed/EuIQ98gDGkI"
         title="lil ad"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
@@ -483,7 +630,7 @@ body {
           <li>Two revision rounds included. New features are not revisions :( though they may be discounted with stacked work :)</li>
           <li>Half payment when work begins, rest on delivery, unless otherwise arranged. </li>
           <li>I reserve the right to quote differently than listed here. The price ranges given are approximate and based on my past experience.</li>
-         <li>Clothing price can <b>multiply</b> with complexity. Robes, coats, articles that cover multiple parts of the body, or other things that need very special weight painting, will cost much more than something like a T-shirt or shorts.</li>
+          
         </ul>
       </div>
         <div class="policies">
@@ -505,6 +652,8 @@ body {
 
   <footer>
     &copy; 2026 all paws reserved
+    <br>
+    <img src="https://hits.sh/lidobunny-avatar-work.svg" alt="visits" style="margin-top:0.5rem;">
   </footer>
 
 
@@ -533,6 +682,7 @@ body {
 
 
     const gallery  = document.getElementById('gallery');
+    const otherGallery = document.getElementById('other-gallery');
     const lightbox = document.getElementById('lightbox');
     const lbImg    = document.getElementById('lb-img');
     const lbTitle  = document.getElementById('lb-title');
@@ -554,13 +704,76 @@ body {
       document.body.style.overflow = '';
     }
 
-    gallery.addEventListener('click', e => {
+    function handleGalleryClick(e) {
       const link = e.target.closest('.thumb');
       if (!link) return;
       e.preventDefault();
       const img = link.querySelector('img');
       openLightbox(link.href, img ? img.alt : '', link.dataset.title, link.dataset.desc);
+    }
+
+    gallery.addEventListener('click', handleGalleryClick);
+    otherGallery.addEventListener('click', handleGalleryClick);
+
+    const owPrev = document.getElementById('ow-prev');
+    const owNext = document.getElementById('ow-next');
+
+    // duplicate all thumbs once so the row can loop seamlessly
+    const owOriginals = Array.from(otherGallery.children);
+    owOriginals.forEach(el => otherGallery.appendChild(el.cloneNode(true)));
+    // width of one full set (half of total scrollable content)
+    function owHalf() { return otherGallery.scrollWidth / 2; }
+    function owWrap() {
+      const half = owHalf();
+      if (half <= 0) return;
+      if (otherGallery.scrollLeft >= half) otherGallery.scrollLeft -= half;
+      else if (otherGallery.scrollLeft < 0) otherGallery.scrollLeft += half;
+    }
+    let owPaused = false;
+    let owPauseTimeout;
+
+    function owPauseAwhile() {
+      owPaused = true;
+      clearTimeout(owPauseTimeout);
+      owPauseTimeout = setTimeout(() => { owPaused = false; }, 3000);
+    }
+
+    owPrev.addEventListener('click', () => {
+      owPauseAwhile();
+      otherGallery.scrollBy({ left: -300, behavior: 'smooth' });
     });
+
+    owNext.addEventListener('click', () => {
+      owPauseAwhile();
+      otherGallery.scrollBy({ left: 300, behavior: 'smooth' });
+    });
+
+    otherGallery.addEventListener('wheel', owPauseAwhile, { passive: true });
+    otherGallery.addEventListener('touchstart', owPauseAwhile, { passive: true });
+    otherGallery.addEventListener('mouseenter', owPauseAwhile);
+
+    let owPos = null;
+    let owLast = null;
+    const OW_SPEED = 25; // pixels per second
+
+    function owTick(now) {
+      if (owLast === null) owLast = now;
+      const dt = (now - owLast) / 1000;
+      owLast = now;
+
+      const half = owHalf();
+      if (!owPaused && half > 0 && otherGallery.scrollWidth > otherGallery.clientWidth) {
+        if (owPos === null) owPos = otherGallery.scrollLeft;
+        owPos += OW_SPEED * dt;
+        if (owPos >= half) owPos -= half;
+        otherGallery.scrollLeft = owPos;
+      } else {
+        owWrap();
+        owPos = null; // resync after user scrolls
+      }
+      requestAnimationFrame(owTick);
+    }
+    requestAnimationFrame(owTick);
 
     lbClose.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
