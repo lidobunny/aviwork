@@ -8,22 +8,58 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* Starry-sky palette, sampled from the skybox shader:
+       BaseColor  (0.1,0.1,0.2) -> #1a1a33  deep night sky
+       GroundColor(0.6,0.6,1.0) -> #9999ff  horizon glow
+       StarColor  (0.3,0.4,1.0) -> #4d66ff  star blue
+       CloudColor (0.2,0.2,1.0) -> #3333ff  nebula blue */
+    :root {
+      --sky-base:   #14142a;
+      --sky-deep:   #0c0c1c;
+      --horizon:    #9999ff;
+      --star-blue:  #7d8cff;
+      --nebula:     #3d3dcc;
+      --ink:        #e8e8f6;
+      --ink-dim:    rgba(232,232,246,0.65);
+      --panel:      rgba(30,30,58,0.72);
+      --panel-edge: rgba(153,153,255,0.22);
+    }
+
 body {
   font-family: 'Concert One', system-ui, sans-serif;
-      background: #f9f7f4;
-      color: #1a1a1a;
+      background: var(--sky-deep);
+      color: var(--ink);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
     }
 
+    /* fixed starfield behind everything */
+    #starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      background: linear-gradient(to bottom,
+        var(--sky-deep) 0%,
+        var(--sky-base) 45%,
+        #232347 80%,
+        #3a3a6e 100%); /* horizon glow at the bottom, like GroundRef */
+    }
+
+    header, main, .other-work, .video-section, .pricing-section, footer {
+      position: relative;
+      z-index: 1;
+    }
 
     header {
       position: relative;
       text-align: center;
       padding: 5rem 2rem 4rem;
       overflow: hidden;
-      background: #111;
+      background: rgba(6,6,16,0.55);
       color: #fff;
     }
 
@@ -47,6 +83,7 @@ body {
       line-height: 1.1;
       color: #fff;
       margin-bottom: 0.75rem;
+      text-shadow: 0 0 18px rgba(125,140,255,0.45);
     }
 
     header p {
@@ -82,13 +119,17 @@ body {
       cursor: pointer;
       border-radius: 10px;
       overflow: hidden;
-      background: #e8e5e0;
+      background: #1e1e3a;
       aspect-ratio: 1 / 1;
-      border: 1.5px solid rgba(0,0,0,0.07);
-      transition: transform 0.18s ease, border-color 0.18s ease;
+      border: 1.5px solid var(--panel-edge);
+      transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
     }
 
-    .thumb:hover { transform: translateY(-3px); border-color: rgba(0,0,0,0.18); }
+    .thumb:hover {
+      transform: translateY(-3px);
+      border-color: var(--star-blue);
+      box-shadow: 0 0 16px rgba(125,140,255,0.35);
+    }
 
     .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
@@ -104,7 +145,7 @@ body {
       font-size: 1.2rem;
       font-weight: 600;
       letter-spacing: 0.01em;
-      color: #444;
+      color: var(--ink-dim);
       margin-bottom: 1rem;
       text-align: center;
     }
@@ -137,21 +178,25 @@ body {
       width: 36px;
       height: 36px;
       border-radius: 50%;
-      border: 1.5px solid rgba(0,0,0,0.15);
-      background: #fff;
-      color: #1a1a1a;
+      border: 1.5px solid var(--panel-edge);
+      background: var(--panel);
+      color: var(--ink);
       font-size: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
     }
 
-    .scroll-arrow:hover { background: #f0ede8; border-color: rgba(0,0,0,0.3); }
+    .scroll-arrow:hover {
+      background: #2a2a52;
+      border-color: var(--star-blue);
+      box-shadow: 0 0 10px rgba(125,140,255,0.35);
+    }
 
     .video-section {
-      background: #111;
+      background: rgba(6,6,16,0.55);
       padding: 3rem 2rem;
       display: flex;
       flex-direction: column;
@@ -173,12 +218,13 @@ body {
       aspect-ratio: 16 / 9;
       border-radius: 10px;
       overflow: hidden;
+      border: 1.5px solid var(--panel-edge);
     }
 
     .video-wrap iframe { width: 100%; height: 100%; border: none; display: block; }
 
     .pricing-section {
-      background: #f9f7f4;
+      background: transparent;
       padding: 2.5rem 2rem;
       display: flex;
       flex-direction: column;
@@ -186,9 +232,9 @@ body {
     }
 
     .pricing-toggle {
-      background: #1a1a1a;
+      background: var(--panel);
       color: #fff;
-      border: none;
+      border: 1.5px solid var(--panel-edge);
       border-radius: 8px;
       padding: 0.8rem 2rem;
       font-size: 2rem;
@@ -198,10 +244,15 @@ body {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      transition: background 0.15s;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+      font-family: inherit;
     }
 
-    .pricing-toggle:hover { background: #333; }
+    .pricing-toggle:hover {
+      background: #2a2a52;
+      border-color: var(--star-blue);
+      box-shadow: 0 0 14px rgba(125,140,255,0.3);
+    }
 
     .pricing-toggle .arrow {
       display: inline-block;
@@ -231,7 +282,7 @@ body {
     .services thead th {
       text-align: left;
       padding: 0.6rem 1rem;
-      background: #1a1a1a;
+      background: #1a1a33;
       color: #fff;
       font-weight: 600;
       font-size: 2rem;
@@ -254,7 +305,7 @@ body {
       flex-direction: column;
       align-items: center;
       text-align: center;
-      border-bottom: 4px double rgba(0,0,0,0.35);
+      border-bottom: 4px double rgba(153,153,255,0.4);
       padding: 1rem 0;
     }
 
@@ -262,18 +313,19 @@ body {
       font-weight: 700;
       padding-right: 0;
       font-size: 1.6rem;
+      color: var(--horizon);
     }
 
     .services tbody td:last-child {
       text-align: left;
       font-weight: 600;
-      color: #444;
+      color: var(--ink-dim);
       padding-left: 0;
       padding-top: 0;
     }
 
     .services tbody td .desc {
-      color: #555;
+      color: var(--ink-dim);
       font-size: 1.28rem;
       margin-top: 0.3rem;
       line-height: 1.6;
@@ -281,12 +333,14 @@ body {
 
 
     .policies {
-      background: #f0ede8;
+      background: var(--panel);
+      border: 1px solid var(--panel-edge);
       border-radius: 10px;
       padding: 1.4rem 1.5rem;
       font-size: 0.85rem;
-      color: #444;
+      color: var(--ink-dim);
       line-height: 1.7;
+      margin-bottom: 1rem;
     }
 
     .policies strong {
@@ -294,7 +348,7 @@ body {
       font-size: 0.78rem;
       letter-spacing: 0.07em;
       text-transform: uppercase;
-      color: #1a1a1a;
+      color: var(--horizon);
       margin-bottom: 0.6rem;
     }
 
@@ -305,14 +359,14 @@ body {
       gap: 0.4rem;
     }
 
-    .policies li::before { content: "· "; color: #999; }
+    .policies li::before { content: "· "; color: var(--star-blue); }
 
     .lightbox {
       display: none;
       position: fixed;
       inset: 0;
       z-index: 999;
-      background: rgba(0,0,0,0.88);
+      background: rgba(4,4,12,0.92);
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
@@ -331,8 +385,8 @@ body {
 
     .lb-panel {
       flex: 0 0 240px;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(153,153,255,0.08);
+      border: 1px solid rgba(153,153,255,0.2);
       border-radius: 10px;
       padding: 1.5rem 1.25rem;
       color: #fff;
@@ -393,14 +447,15 @@ body {
       text-align: center;
       padding: 1.75rem 2rem;
       font-size: 0.82rem;
-      color: #888;
-      border-top: 1px solid rgba(0,0,0,0.08);
+      color: var(--ink-dim);
+      border-top: 1px solid rgba(153,153,255,0.15);
       letter-spacing: 0.01em;
     }
   </style>
 </head>
 <body>
 
+  <canvas id="starfield"></canvas>
 
   <header>
     <video class="header-bg" autoplay muted loop playsinline>
@@ -508,7 +563,6 @@ body {
         <img src="LidosRoom.png" />
       </a>
 
-      </a>
             <a class="thumb" href="Emiss.png"
          data-title="Shiny Bunny"
          data-desc="A picture of my main avatar, in Lidos Room.">
@@ -767,6 +821,120 @@ body {
     lbClose.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+
+    /* ============ STARRY SKY (matches the skybox shader) ============
+       - three star "magnitudes" like the shader's first/second/third stars
+       - twinkle via per-star phase, like the shader's blink
+       - blue-tinted stars with slight random color fluctuation
+       - occasional shooting star (IsShoot on) */
+    const sky = document.getElementById('starfield');
+    const ctx = sky.getContext('2d');
+    let stars = [];
+    let shoot = null;
+    let nextShootAt = performance.now() + 4000;
+
+    function makeStars() {
+      const w = sky.width, h = sky.height;
+      const count = Math.floor((w * h) / 3800); // density
+      stars = [];
+      for (let i = 0; i < count; i++) {
+        const mag = Math.random();
+        // mimic StarColorFluct: mostly blue-white, slight random hue
+        const fluct = 0.3;
+        const r = 180 + Math.random() * 75 * fluct + 40 * (1 - fluct);
+        const g = 190 + Math.random() * 65 * fluct + 40 * (1 - fluct);
+        const b = 255;
+        stars.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          size: mag < 0.7 ? 0.8 : mag < 0.93 ? 1.4 : 2.2, // 3 magnitudes
+          phase: Math.random() * Math.PI * 2,
+          speed: 0.4 + Math.random() * 1.4,
+          color: `${r|0},${g|0},${b}`
+        });
+      }
+    }
+
+    function resizeSky() {
+      sky.width = window.innerWidth;
+      sky.height = window.innerHeight;
+      makeStars();
+    }
+    window.addEventListener('resize', resizeSky);
+    resizeSky();
+
+    function spawnShoot() {
+      const w = sky.width, h = sky.height;
+      const x = Math.random() * w * 0.8 + w * 0.1;
+      const y = Math.random() * h * 0.35;
+      const ang = Math.PI * (0.15 + Math.random() * 0.2); // down-right-ish
+      shoot = {
+        x, y,
+        vx: Math.cos(ang) * 600,
+        vy: Math.sin(ang) * 600,
+        life: 0,
+        maxLife: 0.9
+      };
+    }
+
+    function drawSky(now, dt) {
+      ctx.clearRect(0, 0, sky.width, sky.height);
+      const t = now / 1000;
+
+      for (const s of stars) {
+        const tw = 0.45 + 0.55 * (0.5 + 0.5 * Math.sin(t * s.speed + s.phase));
+        ctx.globalAlpha = tw;
+        ctx.fillStyle = `rgb(${s.color})`;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
+        ctx.fill();
+        // glow for the big ones
+        if (s.size > 2) {
+          ctx.globalAlpha = tw * 0.25;
+          ctx.beginPath();
+          ctx.arc(s.x, s.y, s.size * 2.6, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      }
+      ctx.globalAlpha = 1;
+
+      // shooting star
+      if (!shoot && now >= nextShootAt) spawnShoot();
+      if (shoot) {
+        shoot.life += dt;
+        shoot.x += shoot.vx * dt;
+        shoot.y += shoot.vy * dt;
+        const fade = 1 - shoot.life / shoot.maxLife;
+        if (fade <= 0 || shoot.x > sky.width + 100 || shoot.y > sky.height + 100) {
+          shoot = null;
+          nextShootAt = now + 5000 + Math.random() * 12000; // every 5-17s
+        } else {
+          const tailX = shoot.x - shoot.vx * 0.14;
+          const tailY = shoot.y - shoot.vy * 0.14;
+          const grad = ctx.createLinearGradient(tailX, tailY, shoot.x, shoot.y);
+          grad.addColorStop(0, 'rgba(255,255,230,0)');
+          grad.addColorStop(1, `rgba(255,255,230,${0.9 * fade})`);
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = 2;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.moveTo(tailX, tailY);
+          ctx.lineTo(shoot.x, shoot.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    let skyLast = null;
+    function skyTick(now) {
+      if (skyLast === null) skyLast = now;
+      const dt = Math.min((now - skyLast) / 1000, 0.05);
+      skyLast = now;
+      drawSky(now, dt);
+      requestAnimationFrame(skyTick);
+    }
+    requestAnimationFrame(skyTick);
   </script>
 
 </body>
