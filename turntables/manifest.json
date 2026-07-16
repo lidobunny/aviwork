@@ -15,6 +15,14 @@
       "dir": "turntables/bandos",
       "frames": 36,
       "ext": "webp"
+    },
+    {
+      "id": "robe-and-mask",
+      "title": "Robe and Mask",
+      "desc": "A custom, fully from scratch robe and facemask. The robe has physics, and the facemask supports face tracking, expressions, visemes, and other blend shapes. The bells on the antlers have physics as well - the clappers swing seperately. I did not model the antlers - this was for a Feyrin base. ",
+      "dir": "turntables/robe-and-mask",
+      "frames": 36,
+      "ext": "webp"
     }
   ]
 }
