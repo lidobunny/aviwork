@@ -457,6 +457,174 @@ body {
 
     .lightbox-close:hover { color: #fff; }
 
+    /* ============ TURNTABLE THEATER ============ */
+    .tt-view {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      overflow: hidden;
+      background: rgba(2,2,8,0);
+      transition: background 1.6s ease;
+    }
+
+    .tt-view.on { display: block; }
+    .tt-view.show { background: rgba(2,2,8,0.96); }
+
+    .tt-stage {
+      position: absolute;
+      left: 50%;
+      bottom: 6vh;
+      transform: translateX(-50%) translateY(110vh) scale(0.25);
+      opacity: 0;
+      transition: transform 1.6s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 0.8s ease 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    .tt-view.show .tt-stage {
+      transform: translateX(-50%) translateY(0) scale(1);
+      opacity: 1;
+    }
+
+    /* the fake light cone above the model */
+    .tt-cone {
+      width: min(70vh, 70vw);
+      height: 26vh;
+      clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+      background: linear-gradient(to bottom,
+        rgba(255,255,225,0.55),
+        rgba(255,255,225,0.18) 55%,
+        rgba(255,255,225,0));
+      opacity: 0;
+      transition: opacity 1.2s ease 1.5s; /* lamp clicks on after the rise */
+      margin-bottom: -2vh;
+      pointer-events: none;
+      filter: blur(1px);
+    }
+
+    /* the lamp itself */
+    .tt-cone::before {
+      content: "";
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 10px;
+      border-radius: 50%;
+      background: #fffbe0;
+      box-shadow: 0 0 18px 6px rgba(255,250,210,0.8);
+    }
+
+    .tt-view.show .tt-cone { opacity: 1; }
+
+    .tt-gif {
+      max-width: min(62vh, 80vw);
+      max-height: 56vh;
+      display: block;
+      pointer-events: none;
+      filter: drop-shadow(0 0 30px rgba(255,250,210,0.15));
+    }
+
+    /* soft pool of light under the model */
+    .tt-floor {
+      width: min(50vh, 60vw);
+      height: 5vh;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center,
+        rgba(255,250,215,0.22), rgba(255,250,215,0) 70%);
+      margin-top: -2vh;
+      opacity: 0;
+      transition: opacity 1.2s ease 1.5s;
+      pointer-events: none;
+    }
+
+    .tt-view.show .tt-floor { opacity: 1; }
+
+    /* description along the left side */
+    .tt-desc {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: min(300px, 34vw);
+      padding: 4rem 1.75rem 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      justify-content: center;
+      background: linear-gradient(to right, rgba(4,4,14,0.85), rgba(4,4,14,0));
+      color: #fff;
+      opacity: 0;
+      transform: translateX(-24px);
+      transition: opacity 1s ease 1.8s, transform 1s ease 1.8s;
+      pointer-events: none;
+    }
+
+    .tt-view.show .tt-desc { opacity: 1; transform: translateX(0); }
+
+    .tt-desc h2 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      line-height: 1.25;
+      color: var(--horizon);
+    }
+
+    .tt-desc p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: rgba(255,255,255,0.75);
+      white-space: pre-line;
+    }
+
+    .tt-hint {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.04em;
+      margin-top: 0.5rem;
+    }
+
+    .tt-close {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.7);
+      font-size: 2rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.8s ease 1.5s, color 0.15s;
+    }
+
+    .tt-view.show .tt-close { opacity: 1; }
+    .tt-close:hover { color: #fff; }
+
+    @media (max-width: 700px) {
+      .tt-desc {
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        padding: 1.25rem 1.5rem 1.5rem;
+        justify-content: flex-end;
+        background: linear-gradient(to top, rgba(4,4,14,0.9), rgba(4,4,14,0));
+        transform: translateY(24px);
+      }
+      .tt-view.show .tt-desc { transform: translateY(0); }
+      .tt-stage { bottom: 22vh; }
+      .tt-gif { max-height: 42vh; }
+    }
+
     footer {
       text-align: center;
       padding: 1.75rem 2rem;
@@ -541,6 +709,41 @@ body {
 
     </div>
   </main>
+
+  <section class="other-work">
+    <h2>Turntables</h2>
+    <div class="scroll-row-wrap">
+      <button class="scroll-arrow" id="tt-prev" aria-label="Scroll left">&#8249;</button>
+      <div class="scroll-row" id="turntable-gallery">
+
+        <a class="thumb" href="turntable1.gif"
+           data-title="Turntable 1"
+           data-desc="Placeholder turntable — swap the gif filename, title, and this description for a real one.">
+          <img src="turntable1.gif" />
+        </a>
+
+        <a class="thumb" href="turntable2.gif"
+           data-title="Turntable 2"
+           data-desc="Placeholder turntable — swap the gif filename, title, and this description for a real one.">
+          <img src="turntable2.gif" />
+        </a>
+
+        <a class="thumb" href="turntable3.gif"
+           data-title="Turntable 3"
+           data-desc="Placeholder turntable — swap the gif filename, title, and this description for a real one.">
+          <img src="turntable3.gif" />
+        </a>
+
+        <a class="thumb" href="turntable4.gif"
+           data-title="Turntable 4"
+           data-desc="Placeholder turntable — swap the gif filename, title, and this description for a real one.">
+          <img src="turntable4.gif" />
+        </a>
+
+      </div>
+      <button class="scroll-arrow" id="tt-next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
 
   <section class="other-work">
     <h2>Other Work</h2>
@@ -712,7 +915,7 @@ body {
     <br>
     
   </footer>
-/*
+<!--
   ⠀⠀⠀⠀⠀⠀⠀⢠⢄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⢸⠀⠈⠙⠲⢤⣠⣶⣿⣶⡄⠀⣀⣄⡀⢀⣠⠤⠔⠒⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠉⠉⠉⠒⢦⡈⣇⠀⠀⠀⠀⠙⢿⣿⣿⣿⣿⣿⣿⣿⣁⡀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -750,7 +953,7 @@ body {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⢿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣿⡿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⠿⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-  */
+-->
 
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Full size image">
     <button class="lightbox-close" id="lb-close" aria-label="Close">&times;</button>
@@ -762,6 +965,21 @@ body {
       <div class="lb-img-wrap">
         <img id="lb-img" src="" alt="Full size preview" />
       </div>
+    </div>
+  </div>
+
+  <!-- turntable theater -->
+  <div class="tt-view" id="tt-view" role="dialog" aria-modal="true" aria-label="Turntable viewer">
+    <button class="tt-close" id="tt-close" aria-label="Close">&times;</button>
+    <div class="tt-desc">
+      <h2 id="tt-title"></h2>
+      <p id="tt-text"></p>
+      <span class="tt-hint">click: next &nbsp;·&nbsp; right-click: previous &nbsp;·&nbsp; esc: exit</span>
+    </div>
+    <div class="tt-stage" id="tt-stage">
+      <div class="tt-cone"></div>
+      <img class="tt-gif" id="tt-gif" src="" alt="Turntable" />
+      <div class="tt-floor"></div>
     </div>
   </div>
 
@@ -778,6 +996,7 @@ body {
 
     const gallery  = document.getElementById('gallery');
     const otherGallery = document.getElementById('other-gallery');
+    const ttGallery = document.getElementById('turntable-gallery');
     const lightbox = document.getElementById('lightbox');
     const lbImg    = document.getElementById('lb-img');
     const lbTitle  = document.getElementById('lb-title');
@@ -810,65 +1029,144 @@ body {
     gallery.addEventListener('click', handleGalleryClick);
     otherGallery.addEventListener('click', handleGalleryClick);
 
-    const owPrev = document.getElementById('ow-prev');
-    const owNext = document.getElementById('ow-next');
+    /* ---- reusable auto-scrolling looping row ---- */
+    function setupAutoRow(rowEl, prevBtn, nextBtn) {
+      // tag originals with index BEFORE cloning, then clone for a seamless loop
+      const originals = Array.from(rowEl.children);
+      originals.forEach((el, i) => { el.dataset.rowIndex = i; });
+      originals.forEach(el => rowEl.appendChild(el.cloneNode(true)));
 
-    // duplicate all thumbs once so the row can loop seamlessly
-    const owOriginals = Array.from(otherGallery.children);
-    owOriginals.forEach(el => otherGallery.appendChild(el.cloneNode(true)));
-    // width of one full set (half of total scrollable content)
-    function owHalf() { return otherGallery.scrollWidth / 2; }
-    function owWrap() {
-      const half = owHalf();
-      if (half <= 0) return;
-      if (otherGallery.scrollLeft >= half) otherGallery.scrollLeft -= half;
-      else if (otherGallery.scrollLeft < 0) otherGallery.scrollLeft += half;
-    }
-    let owPaused = false;
-    let owPauseTimeout;
-
-    function owPauseAwhile() {
-      owPaused = true;
-      clearTimeout(owPauseTimeout);
-      owPauseTimeout = setTimeout(() => { owPaused = false; }, 3000);
-    }
-
-    owPrev.addEventListener('click', () => {
-      owPauseAwhile();
-      otherGallery.scrollBy({ left: -300, behavior: 'smooth' });
-    });
-
-    owNext.addEventListener('click', () => {
-      owPauseAwhile();
-      otherGallery.scrollBy({ left: 300, behavior: 'smooth' });
-    });
-
-    otherGallery.addEventListener('wheel', owPauseAwhile, { passive: true });
-    otherGallery.addEventListener('touchstart', owPauseAwhile, { passive: true });
-    otherGallery.addEventListener('mouseenter', owPauseAwhile);
-
-    let owPos = null;
-    let owLast = null;
-    const OW_SPEED = 25; 
-
-    function owTick(now) {
-      if (owLast === null) owLast = now;
-      const dt = (now - owLast) / 1000;
-      owLast = now;
-
-      const half = owHalf();
-      if (!owPaused && half > 0 && otherGallery.scrollWidth > otherGallery.clientWidth) {
-        if (owPos === null) owPos = otherGallery.scrollLeft;
-        owPos += OW_SPEED * dt;
-        if (owPos >= half) owPos -= half;
-        otherGallery.scrollLeft = owPos;
-      } else {
-        owWrap();
-        owPos = null; 
+      function half() { return rowEl.scrollWidth / 2; }
+      function wrap() {
+        const h = half();
+        if (h <= 0) return;
+        if (rowEl.scrollLeft >= h) rowEl.scrollLeft -= h;
+        else if (rowEl.scrollLeft < 0) rowEl.scrollLeft += h;
       }
-      requestAnimationFrame(owTick);
+
+      let paused = false;
+      let pauseTimeout;
+      function pauseAwhile() {
+        paused = true;
+        clearTimeout(pauseTimeout);
+        pauseTimeout = setTimeout(() => { paused = false; }, 3000);
+      }
+
+      prevBtn.addEventListener('click', () => {
+        pauseAwhile();
+        rowEl.scrollBy({ left: -300, behavior: 'smooth' });
+      });
+      nextBtn.addEventListener('click', () => {
+        pauseAwhile();
+        rowEl.scrollBy({ left: 300, behavior: 'smooth' });
+      });
+
+      rowEl.addEventListener('wheel', pauseAwhile, { passive: true });
+      rowEl.addEventListener('touchstart', pauseAwhile, { passive: true });
+      rowEl.addEventListener('mouseenter', pauseAwhile);
+
+      let pos = null;
+      let last = null;
+      const SPEED = 25; // pixels per second
+
+      function tick(now) {
+        if (last === null) last = now;
+        const dt = (now - last) / 1000;
+        last = now;
+
+        const h = half();
+        if (!paused && h > 0 && rowEl.scrollWidth > rowEl.clientWidth) {
+          if (pos === null) pos = rowEl.scrollLeft;
+          pos += SPEED * dt;
+          if (pos >= h) pos -= h;
+          rowEl.scrollLeft = pos;
+        } else {
+          wrap();
+          pos = null; // resync after user scrolls
+        }
+        requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+
+      return originals; // one copy of each item, for data
     }
-    requestAnimationFrame(owTick);
+
+    setupAutoRow(otherGallery, document.getElementById('ow-prev'), document.getElementById('ow-next'));
+    const ttItems = setupAutoRow(ttGallery, document.getElementById('tt-prev'), document.getElementById('tt-next'))
+      .map(el => ({
+        src:   el.getAttribute('href'),
+        title: el.dataset.title || '',
+        desc:  el.dataset.desc  || ''
+      }));
+
+    /* ---- turntable theater ---- */
+    const ttView  = document.getElementById('tt-view');
+    const ttStage = document.getElementById('tt-stage');
+    const ttGif   = document.getElementById('tt-gif');
+    const ttTitle = document.getElementById('tt-title');
+    const ttText  = document.getElementById('tt-text');
+    const ttClose = document.getElementById('tt-close');
+    let ttIndex = 0;
+    let ttOpen = false;
+
+    function ttShow(i) {
+      ttIndex = ((i % ttItems.length) + ttItems.length) % ttItems.length;
+      const item = ttItems[ttIndex];
+      ttGif.src = item.src;
+      ttTitle.textContent = item.title;
+      ttText.textContent = item.desc;
+    }
+
+    function openTT(i) {
+      ttShow(i);
+      ttOpen = true;
+      ttView.classList.add('on');       // mounted, still transparent
+      document.body.style.overflow = 'hidden';
+      // next frame: begin the dim + rise
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        ttView.classList.add('show');
+      }));
+    }
+
+    function closeTT() {
+      ttOpen = false;
+      ttView.classList.remove('show');  // dim out, stage sinks
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        if (!ttOpen) {
+          ttView.classList.remove('on');
+          ttGif.src = '';
+        }
+      }, 1700);
+    }
+
+    // clicking a turntable thumb opens the theater instead of the normal lightbox
+    ttGallery.addEventListener('click', e => {
+      const link = e.target.closest('.thumb');
+      if (!link) return;
+      e.preventDefault();
+      openTT(parseInt(link.dataset.rowIndex || '0', 10));
+    });
+
+    // left click anywhere in the theater = next; right click = previous
+    ttView.addEventListener('click', e => {
+      if (e.target === ttClose) return;
+      ttShow(ttIndex + 1);
+    });
+
+    ttView.addEventListener('contextmenu', e => {
+      e.preventDefault();
+      ttShow(ttIndex - 1);
+    });
+
+    ttClose.addEventListener('click', e => {
+      e.stopPropagation();
+      closeTT();
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && ttOpen) closeTT();
+    });
 
     lbClose.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
