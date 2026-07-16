@@ -23,6 +23,14 @@
       "dir": "turntables/robe-and-mask",
       "frames": 36,
       "ext": "webp"
+    },
+    {
+      "id": "staff",
+      "title": "Staff",
+      "desc": "My custom staff for Furality Somna - It's world-droppable, casts spells which can be left in world space, has animated bits and bobs, and the chain has physics!",
+      "dir": "turntables/staff",
+      "frames": 36,
+      "ext": "webp"
     }
   ]
 }
