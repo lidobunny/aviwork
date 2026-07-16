@@ -457,7 +457,7 @@ body {
 
     .lightbox-close:hover { color: #fff; }
 
- 
+    /* ============ TURNTABLE THEATER ============ */
     .tt-view {
       display: none;
       position: fixed;
@@ -481,17 +481,20 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      cursor: pointer;
+      cursor: grab;
+      touch-action: none;
       user-select: none;
       -webkit-user-drag: none;
     }
+
+    .tt-stage.dragging { cursor: grabbing; }
 
     .tt-view.show .tt-stage {
       transform: translateX(-50%) translateY(0) scale(1);
       opacity: 1;
     }
 
-
+    /* the fake light cone above the model */
     .tt-cone {
       width: min(70vh, 70vw);
       height: 26vh;
@@ -507,7 +510,7 @@ body {
       filter: blur(1px);
     }
 
-
+    /* the lamp itself */
     .tt-cone::before {
       content: "";
       position: absolute;
@@ -531,7 +534,7 @@ body {
       filter: drop-shadow(0 0 30px rgba(255,250,210,0.15));
     }
 
- 
+    /* soft pool of light under the model */
     .tt-floor {
       width: min(50vh, 60vw);
       height: 5vh;
@@ -546,7 +549,7 @@ body {
 
     .tt-view.show .tt-floor { opacity: 1; }
 
-  
+    /* description along the left side */
     .tt-desc {
       position: absolute;
       left: 0;
@@ -710,37 +713,12 @@ body {
     </div>
   </main>
 
-  <section class="other-work">
+  <section class="other-work" id="tt-section" style="display:none">
     <h2>Turntables</h2>
     <div class="scroll-row-wrap">
       <button class="scroll-arrow" id="tt-prev" aria-label="Scroll left">&#8249;</button>
       <div class="scroll-row" id="turntable-gallery">
-
-        <a class="thumb" href="BandosNew.gif"
-           data-title="Bandos"
-           data-desc="Bandos chestplate, shoulder piece, and party crown, modeled from scratch for the Deira. ">
-          <img src="BandosNew.gif" />
-        </a>
-
-        <a class="thumb" href="VesperNew.gif"
-           data-title="Robe and Mask"
-           data-desc="A custom robe, with physics. A facemask which moves with all visemes, expressions, face tracking, and other blend shapes. Bells on ribbons which have physics - the clappers swing inside of the bells. ">
-          <img src="VesperNew.gif" />
-        </a>
-
-        <a class="thumb" href="ShirtNew.gif"
-           data-title="Shirt"
-           data-desc="A fan wanted a custom shirt with multiple textures for their Nova - this also has blend shapes and relevant physics.">
-          <img src="ShirtNew.gif" />
-        </a>
-
-        <a class="thumb" href="WandNew.gif"
-           data-title="Magic Staff"
-           data-desc="This is a custom prop I made for myself, for Furality Somna - I don't claim credit for the alphas provided in the creator kit by Furality.
-          The chain has physics, the little pieces are animated, the staff is world-droppable, and a hand-rolled gesture-driven system allows me to cast spells / particles with the wand. ">
-          <img src="WandNew.gif" />
-        </a>
-
+        <!-- filled automatically from turntables/manifest.json -->
       </div>
       <button class="scroll-arrow" id="tt-next" aria-label="Scroll right">&#8250;</button>
     </div>
@@ -975,7 +953,7 @@ body {
     <div class="tt-desc">
       <h2 id="tt-title"></h2>
       <p id="tt-text"></p>
-      <span class="tt-hint">click: next &nbsp;·&nbsp; right-click: previous &nbsp;·&nbsp; esc: exit</span>
+      <span class="tt-hint">drag: spin &nbsp;·&nbsp; click: next model &nbsp;·&nbsp; right-click: previous &nbsp;·&nbsp; esc: exit</span>
     </div>
     <div class="tt-stage" id="tt-stage">
       <div class="tt-cone"></div>
@@ -1093,32 +1071,74 @@ body {
     }
 
     setupAutoRow(otherGallery, document.getElementById('ow-prev'), document.getElementById('ow-next'));
-    const ttItems = setupAutoRow(ttGallery, document.getElementById('tt-prev'), document.getElementById('tt-next'))
-      .map(el => ({
-        src:   el.getAttribute('href'),
-        title: el.dataset.title || '',
-        desc:  el.dataset.desc  || ''
-      }));
 
-    /* ---- turntable theater ---- */
+    /* ---- turntables: loaded from turntables/manifest.json ---- */
+    const ttSection = document.getElementById('tt-section');
     const ttView  = document.getElementById('tt-view');
     const ttStage = document.getElementById('tt-stage');
     const ttGif   = document.getElementById('tt-gif');
     const ttTitle = document.getElementById('tt-title');
     const ttText  = document.getElementById('tt-text');
     const ttClose = document.getElementById('tt-close');
+
+    let ttItems = [];
     let ttIndex = 0;
     let ttOpen = false;
+    let ttFrame = 0;
+    let ttImages = [];        // preloaded Image objects for the open model
+    let ttLastInput = 0;      // for idle auto-spin
+
+    function frameURL(item, i) {
+      return `${item.dir}/frame_${String(i).padStart(3, '0')}.${item.ext}`;
+    }
+
+    fetch('turntables/manifest.json')
+      .then(r => r.ok ? r.json() : Promise.reject())
+      .then(data => {
+        ttItems = (data.items || []).filter(it => it.frames > 0);
+        if (!ttItems.length) return;
+        ttSection.style.display = '';
+        ttItems.forEach((item, i) => {
+          const a = document.createElement('a');
+          a.className = 'thumb';
+          a.href = frameURL(item, 0);
+          a.dataset.rowIndex = i;
+          const img = document.createElement('img');
+          img.src = frameURL(item, 0);
+          img.alt = item.title;
+          a.appendChild(img);
+          ttGallery.appendChild(a);
+        });
+        setupAutoRow(ttGallery, document.getElementById('tt-prev'), document.getElementById('tt-next'));
+      })
+      .catch(() => { /* no manifest yet — section stays hidden */ });
+
+    function setFrame(i) {
+      if (!ttImages.length) return;
+      ttFrame = ((i % ttImages.length) + ttImages.length) % ttImages.length;
+      const im = ttImages[ttFrame];
+      if (im.complete && im.src) ttGif.src = im.src;
+    }
 
     function ttShow(i) {
       ttIndex = ((i % ttItems.length) + ttItems.length) % ttItems.length;
       const item = ttItems[ttIndex];
-      ttGif.src = item.src;
       ttTitle.textContent = item.title;
-      ttText.textContent = item.desc;
+      ttText.textContent = item.desc || '';
+      // preload every frame of this model
+      ttImages = [];
+      for (let f = 0; f < item.frames; f++) {
+        const im = new Image();
+        im.src = frameURL(item, f);
+        ttImages.push(im);
+      }
+      ttFrame = 0;
+      ttGif.src = frameURL(item, 0);
+      ttLastInput = performance.now();
     }
 
     function openTT(i) {
+      if (!ttItems.length) return;
       ttShow(i);
       ttOpen = true;
       ttView.classList.add('on');       // mounted, still transparent
@@ -1137,11 +1157,12 @@ body {
         if (!ttOpen) {
           ttView.classList.remove('on');
           ttGif.src = '';
+          ttImages = [];
         }
       }, 1700);
     }
 
-    // clicking a turntable thumb opens the theater instead of the normal lightbox
+    // clicking a turntable thumb opens the theater
     ttGallery.addEventListener('click', e => {
       const link = e.target.closest('.thumb');
       if (!link) return;
@@ -1149,9 +1170,67 @@ body {
       openTT(parseInt(link.dataset.rowIndex || '0', 10));
     });
 
-    // left click anywhere in the theater = next; right click = previous
+    /* drag to rotate */
+    let dragStartX = 0;
+    let dragStartFrame = 0;
+    let dragging = false;
+    let dragMoved = false;
+    const PX_PER_FRAME = 8; // lower = faster spin
+
+    ttStage.addEventListener('pointerdown', e => {
+      if (!ttOpen) return;
+      dragging = true;
+      dragMoved = false;
+      dragStartX = e.clientX;
+      dragStartFrame = ttFrame;
+      ttStage.classList.add('dragging');
+      ttStage.setPointerCapture(e.pointerId);
+      ttLastInput = performance.now();
+    });
+
+    ttStage.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const dx = e.clientX - dragStartX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      setFrame(dragStartFrame + Math.round(dx / PX_PER_FRAME));
+      ttLastInput = performance.now();
+    });
+
+    function endDrag(e) {
+      if (!dragging) return;
+      dragging = false;
+      ttStage.classList.remove('dragging');
+      ttLastInput = performance.now();
+    }
+    ttStage.addEventListener('pointerup', endDrag);
+    ttStage.addEventListener('pointercancel', endDrag);
+
+    /* idle auto-spin: waits 2s after the last touch, then slowly rotates */
+    let ttSpinAccum = 0;
+    let ttSpinLast = null;
+    const SPIN_FPS = 12;
+    function ttSpinTick(now) {
+      if (ttSpinLast === null) ttSpinLast = now;
+      const dt = (now - ttSpinLast) / 1000;
+      ttSpinLast = now;
+      if (ttOpen && !dragging && now - ttLastInput > 2000 && ttImages.length) {
+        ttSpinAccum += dt * SPIN_FPS;
+        if (ttSpinAccum >= 1) {
+          const steps = Math.floor(ttSpinAccum);
+          ttSpinAccum -= steps;
+          setFrame(ttFrame + steps);
+        }
+      } else {
+        ttSpinAccum = 0;
+      }
+      requestAnimationFrame(ttSpinTick);
+    }
+    requestAnimationFrame(ttSpinTick);
+
+    // plain click (no drag) = next model; right click = previous
     ttView.addEventListener('click', e => {
       if (e.target === ttClose) return;
+      if (dragMoved) { dragMoved = false; return; }
       ttShow(ttIndex + 1);
     });
 
