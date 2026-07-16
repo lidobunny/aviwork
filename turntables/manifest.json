@@ -7,6 +7,14 @@
       "dir": "turntables/shirt",
       "frames": 36,
       "ext": "webp"
+    },
+    {
+      "id": "bandos",
+      "title": "Bandos",
+      "desc": "Bandos Chestplate and Shoulder piece, and Party crown, from Runescape. Modeled and textured from scratch, for a Deira.",
+      "dir": "turntables/bandos",
+      "frames": 36,
+      "ext": "webp"
     }
   ]
 }
