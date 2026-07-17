@@ -890,7 +890,15 @@ body {
         <div class="policies">
         <strong>Contact Info</strong>
         <ul>
-          <li>For now, add me on Discord: lidobunny</li>
+         <section class="pricing-section">
+<form action="https://formspree.io/f/xwvgljgr" method="POST"
+        style="display:flex;flex-direction:column;gap:0.75rem;max-width:420px;margin:0 auto;">
+    <h2 style="text-align:center;">Request a Quote</h2>
+    <input name="discord" placeholder="Discord username" required>
+    <textarea name="description" rows="4" placeholder="Brief description of what you're looking for - I'll add you on Discord to reply" required></textarea>
+    <button type="submit" class="pricing-toggle" style="cursor:pointer;">Send</button>
+  </form>
+</section>
           
           
         </ul>
@@ -903,15 +911,7 @@ body {
       Commission Queue
     </a>
   </section>
-<section class="pricing-section">
-<form action="https://formspree.io/f/xwvgljgr" method="POST"
-        style="display:flex;flex-direction:column;gap:0.75rem;max-width:420px;margin:0 auto;">
-    <h2 style="text-align:center;">Request a Quote</h2>
-    <input name="discord" placeholder="Discord username" required>
-    <textarea name="description" rows="4" placeholder="Brief description of what you're looking for - I'll add you on Discord to reply" required></textarea>
-    <button type="submit" class="pricing-toggle" style="cursor:pointer;">Send</button>
-  </form>
-</section>
+
   <footer>
     &copy; 2026 all paws reserved
     <br>
@@ -1032,7 +1032,7 @@ body {
     otherGallery.addEventListener('click', handleGalleryClick);
 
     function setupAutoRow(rowEl, prevBtn, nextBtn) {
-      // tag originals with index BEFORE cloning, then clone for a seamless loop
+    
       const originals = Array.from(rowEl.children);
       originals.forEach((el, i) => { el.dataset.rowIndex = i; });
       originals.forEach(el => rowEl.appendChild(el.cloneNode(true)));
@@ -1083,13 +1083,13 @@ body {
           rowEl.scrollLeft = pos;
         } else {
           wrap();
-          pos = null; // resync after user scrolls
+          pos = null; 
         }
         requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
 
-      return originals; // one copy of each item, for data
+      return originals; 
     }
 
     setupAutoRow(otherGallery, document.getElementById('ow-prev'), document.getElementById('ow-next'));
@@ -1107,8 +1107,8 @@ body {
     let ttIndex = 0;
     let ttOpen = false;
     let ttFrame = 0;
-    let ttImages = [];        // preloaded Image objects for the open model
-    let ttLastInput = 0;      // for idle auto-spin
+    let ttImages = [];        
+    let ttLastInput = 0;      
 
     function frameURL(item, i) {
       return `${item.dir}/frame_${String(i).padStart(3, '0')}.${item.ext}`;
@@ -1133,7 +1133,7 @@ body {
         });
         setupAutoRow(ttGallery, document.getElementById('tt-prev'), document.getElementById('tt-next'));
       })
-      .catch(() => { /* no manifest yet — section stays hidden */ });
+      .catch(() => { });
 
     function setFrame(i) {
       if (!ttImages.length) return;
@@ -1148,7 +1148,7 @@ body {
       ttTitle.textContent = item.title;
       ttText.textContent = item.desc || '';
       ttView.classList.toggle('tt-scene', item.type === 'scene');
-      // preload every frame of this model
+    
       ttImages = [];
       for (let f = 0; f < item.frames; f++) {
         const im = new Image();
@@ -1164,9 +1164,9 @@ body {
       if (!ttItems.length) return;
       ttShow(i);
       ttOpen = true;
-      ttView.classList.add('on');       // mounted, still transparent
+      ttView.classList.add('on');       
       document.body.style.overflow = 'hidden';
-      // next frame: begin the dim + rise
+      
       requestAnimationFrame(() => requestAnimationFrame(() => {
         ttView.classList.add('show');
       }));
@@ -1174,7 +1174,7 @@ body {
 
     function closeTT() {
       ttOpen = false;
-      ttView.classList.remove('show');  // dim out, stage sinks
+      ttView.classList.remove('show'); 
       document.body.style.overflow = '';
       setTimeout(() => {
         if (!ttOpen) {
@@ -1198,7 +1198,7 @@ body {
     let dragStartFrame = 0;
     let dragging = false;
     let dragMoved = false;
-    const PX_PER_FRAME = 8; // lower = faster spin
+    const PX_PER_FRAME = 8; 
 
     ttStage.addEventListener('pointerdown', e => {
       if (!ttOpen) return;
@@ -1215,8 +1215,8 @@ body {
       if (!dragging) return;
       const dx = e.clientX - dragStartX;
       if (Math.abs(dx) > 4) dragMoved = true;
-      // scenes: dragging right turns your head left (frames go backward),
-      // so the world appears to slide with your hand
+     
+
       const dir = (ttItems[ttIndex] && ttItems[ttIndex].type === 'scene') ? -1 : 1;
       setFrame(dragStartFrame + dir * Math.round(dx / PX_PER_FRAME));
       ttLastInput = performance.now();
@@ -1341,7 +1341,7 @@ body {
         ctx.beginPath();
         ctx.arc(s.x, s.y, s.size, 0, Math.PI * 2);
         ctx.fill();
-        // glow for the big ones
+
         if (s.size > 2) {
           ctx.globalAlpha = tw * 0.25;
           ctx.beginPath();
