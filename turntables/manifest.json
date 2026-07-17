@@ -31,6 +31,14 @@
       "dir": "turntables/staff",
       "frames": 36,
       "ext": "webp"
+    },
+    {
+      "id": "suit",
+      "title": "Suit",
+      "desc": "I modeled, textured, and rigged this suit from scratch, for a base (Daltosphynx) which doesn't have a lot of clothing options out there. This is very early work, but it's a great example of my specialty -  I love making new stuff for obscure bases!",
+      "dir": "turntables/suit",
+      "frames": 36,
+      "ext": "webp"
     }
   ]
 }
