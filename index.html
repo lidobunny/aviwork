@@ -60,7 +60,7 @@ body {
         var(--sky-deep) 0%,
         var(--sky-base) 45%,
         #232347 80%,
-        #3a3a6e 100%); /* horizon glow at the bottom, like GroundRef */
+        #3a3a6e 100%); 
     }
 
     header, main, .other-work, .video-section, .pricing-section, footer {
@@ -285,7 +285,7 @@ body {
 
     .pricing-panel.open { display: block; }
 
-    /* services table */
+
     .services {
       width: 100%;
       border-collapse: collapse;
@@ -457,7 +457,6 @@ body {
 
     .lightbox-close:hover { color: #fff; }
 
-    /* ============ TURNTABLE THEATER ============ */
     .tt-view {
       display: none;
       position: fixed;
@@ -494,7 +493,7 @@ body {
       opacity: 1;
     }
 
-    /* the fake light cone above the model */
+ 
     .tt-cone {
       width: min(70vh, 70vw);
       height: 26vh;
@@ -510,7 +509,6 @@ body {
       filter: blur(1px);
     }
 
-    /* the lamp itself */
     .tt-cone::before {
       content: "";
       position: absolute;
@@ -534,7 +532,7 @@ body {
       filter: drop-shadow(0 0 30px rgba(255,250,210,0.15));
     }
 
-    /* soft pool of light under the model */
+
     .tt-floor {
       width: min(50vh, 60vw);
       height: 5vh;
@@ -549,7 +547,6 @@ body {
 
     .tt-view.show .tt-floor { opacity: 1; }
 
-    /* description along the left side */
     .tt-desc {
       position: absolute;
       left: 0;
@@ -610,6 +607,30 @@ body {
 
     .tt-view.show .tt-close { opacity: 1; }
     .tt-close:hover { color: #fff; }
+
+
+    .tt-view.tt-scene .tt-cone,
+    .tt-view.tt-scene .tt-floor { display: none; }
+
+    .tt-view.tt-scene .tt-stage {
+      top: 0;
+      bottom: 0;
+      justify-content: center;
+      transform: translateX(-50%) scale(1.12);
+      transition: transform 1.6s cubic-bezier(0.22, 0.9, 0.3, 1), opacity 1.2s ease;
+    }
+
+    .tt-view.tt-scene.show .tt-stage {
+      transform: translateX(-50%) scale(1);
+      opacity: 1;
+    }
+
+    .tt-view.tt-scene .tt-gif {
+      max-width: 94vw;
+      max-height: 84vh;
+      filter: none;
+      border-radius: 10px;
+    }
 
     @media (max-width: 700px) {
       .tt-desc {
@@ -1008,7 +1029,6 @@ body {
     gallery.addEventListener('click', handleGalleryClick);
     otherGallery.addEventListener('click', handleGalleryClick);
 
-    /* ---- reusable auto-scrolling looping row ---- */
     function setupAutoRow(rowEl, prevBtn, nextBtn) {
       // tag originals with index BEFORE cloning, then clone for a seamless loop
       const originals = Array.from(rowEl.children);
@@ -1072,7 +1092,7 @@ body {
 
     setupAutoRow(otherGallery, document.getElementById('ow-prev'), document.getElementById('ow-next'));
 
-    /* ---- turntables: loaded from turntables/manifest.json ---- */
+
     const ttSection = document.getElementById('tt-section');
     const ttView  = document.getElementById('tt-view');
     const ttStage = document.getElementById('tt-stage');
@@ -1125,6 +1145,7 @@ body {
       const item = ttItems[ttIndex];
       ttTitle.textContent = item.title;
       ttText.textContent = item.desc || '';
+      ttView.classList.toggle('tt-scene', item.type === 'scene');
       // preload every frame of this model
       ttImages = [];
       for (let f = 0; f < item.frames; f++) {
@@ -1162,7 +1183,7 @@ body {
       }, 1700);
     }
 
-    // clicking a turntable thumb opens the theater
+
     ttGallery.addEventListener('click', e => {
       const link = e.target.closest('.thumb');
       if (!link) return;
@@ -1170,7 +1191,7 @@ body {
       openTT(parseInt(link.dataset.rowIndex || '0', 10));
     });
 
-    /* drag to rotate */
+ 
     let dragStartX = 0;
     let dragStartFrame = 0;
     let dragging = false;
@@ -1192,7 +1213,10 @@ body {
       if (!dragging) return;
       const dx = e.clientX - dragStartX;
       if (Math.abs(dx) > 4) dragMoved = true;
-      setFrame(dragStartFrame + Math.round(dx / PX_PER_FRAME));
+      // scenes: dragging right turns your head left (frames go backward),
+      // so the world appears to slide with your hand
+      const dir = (ttItems[ttIndex] && ttItems[ttIndex].type === 'scene') ? -1 : 1;
+      setFrame(dragStartFrame + dir * Math.round(dx / PX_PER_FRAME));
       ttLastInput = performance.now();
     });
 
@@ -1205,7 +1229,7 @@ body {
     ttStage.addEventListener('pointerup', endDrag);
     ttStage.addEventListener('pointercancel', endDrag);
 
-    /* idle auto-spin: waits 2s after the last touch, then slowly rotates */
+
     let ttSpinAccum = 0;
     let ttSpinLast = null;
     const SPIN_FPS = 12;
@@ -1227,7 +1251,7 @@ body {
     }
     requestAnimationFrame(ttSpinTick);
 
-    // plain click (no drag) = next model; right click = previous
+ 
     ttView.addEventListener('click', e => {
       if (e.target === ttClose) return;
       if (dragMoved) { dragMoved = false; return; }
