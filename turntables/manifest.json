@@ -6,7 +6,8 @@
       "desc": "A fan wanted a custom shirt with multiple textures for their Nova - this also has blend shapes and relevant physics.",
       "dir": "turntables/shirt",
       "frames": 36,
-      "ext": "webp"
+      "ext": "webp",
+      "type": "model"
     },
     {
       "id": "bandos",
