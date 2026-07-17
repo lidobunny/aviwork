@@ -982,6 +982,7 @@ body {
     <div class="tt-stage" id="tt-stage">
       <div class="tt-cone"></div>
       <img class="tt-gif" id="tt-gif" src="" alt="Turntable" />
+      <video class="tt-gif" id="tt-video" muted loop playsinline preload="auto" style="display:none"></video>
       <div class="tt-floor"></div>
     </div>
   </div>
@@ -1100,6 +1101,7 @@ body {
     const ttView  = document.getElementById('tt-view');
     const ttStage = document.getElementById('tt-stage');
     const ttGif   = document.getElementById('tt-gif');
+    const ttVideo = document.getElementById('tt-video');
     const ttTitle = document.getElementById('tt-title');
     const ttText  = document.getElementById('tt-text');
     const ttClose = document.getElementById('tt-close');
@@ -1115,6 +1117,10 @@ body {
       return `${item.dir}/frame_${String(i).padStart(3, '0')}.${item.ext}`;
     }
 
+    function thumbURL(item) {
+      return item.video ? `${item.dir}/${item.poster || 'poster.webp'}` : frameURL(item, 0);
+    }
+
     fetch('turntables/manifest.json')
       .then(r => r.ok ? r.json() : Promise.reject())
       .then(data => {
@@ -1124,10 +1130,10 @@ body {
         ttItems.forEach((item, i) => {
           const a = document.createElement('a');
           a.className = 'thumb';
-          a.href = frameURL(item, 0);
+          a.href = thumbURL(item);
           a.dataset.rowIndex = i;
           const img = document.createElement('img');
-          img.src = frameURL(item, 0);
+          img.src = thumbURL(item);
           img.alt = item.title;
           a.appendChild(img);
           ttGallery.appendChild(a);
@@ -1149,15 +1155,28 @@ body {
       ttTitle.textContent = item.title;
       ttText.textContent = item.desc || '';
       ttView.classList.toggle('tt-scene', item.type === 'scene');
-    
+
+      const isVid = !!item.video;
+      ttGif.style.display   = isVid ? 'none' : '';
+      ttVideo.style.display = isVid ? '' : 'none';
+
       ttImages = [];
-      for (let f = 0; f < item.frames; f++) {
-        const im = new Image();
-        im.src = frameURL(item, f);
-        ttImages.push(im);
+      if (isVid) {
+        ttGif.src = '';
+        ttVideo.src = `${item.dir}/turntable.mp4`;
+        ttVideo.load();
+        ttVideo.play().catch(() => {});
+      } else {
+        ttVideo.pause();
+        ttVideo.removeAttribute('src');
+        for (let f = 0; f < item.frames; f++) {
+          const im = new Image();
+          im.src = frameURL(item, f);
+          ttImages.push(im);
+        }
+        ttFrame = 0;
+        ttGif.src = frameURL(item, 0);
       }
-      ttFrame = 0;
-      ttGif.src = frameURL(item, 0);
       ttLastInput = performance.now();
     }
 
@@ -1182,6 +1201,8 @@ body {
           ttView.classList.remove('on');
           ttGif.src = '';
           ttImages = [];
+          ttVideo.pause();
+          ttVideo.removeAttribute('src');
         }
       }, 1700);
     }
@@ -1197,9 +1218,11 @@ body {
  
     let dragStartX = 0;
     let dragStartFrame = 0;
+    let dragStartTime = 0;
     let dragging = false;
     let dragMoved = false;
-    const PX_PER_FRAME = 8; 
+    const PX_PER_FRAME = 8;
+    const PX_PER_ROTATION = 900; // px of drag for one full spin (video scenes)
 
     ttStage.addEventListener('pointerdown', e => {
       if (!ttOpen) return;
@@ -1207,6 +1230,11 @@ body {
       dragMoved = false;
       dragStartX = e.clientX;
       dragStartFrame = ttFrame;
+      const item = ttItems[ttIndex];
+      if (item && item.video) {
+        ttVideo.pause();
+        dragStartTime = ttVideo.currentTime || 0;
+      }
       ttStage.classList.add('dragging');
       ttStage.setPointerCapture(e.pointerId);
       ttLastInput = performance.now();
@@ -1216,10 +1244,20 @@ body {
       if (!dragging) return;
       const dx = e.clientX - dragStartX;
       if (Math.abs(dx) > 4) dragMoved = true;
-     
 
-      const dir = (ttItems[ttIndex] && ttItems[ttIndex].type === 'scene') ? -1 : 1;
-      setFrame(dragStartFrame + dir * Math.round(dx / PX_PER_FRAME));
+      const item = ttItems[ttIndex];
+      const dir = (item && item.type === 'scene') ? -1 : 1;
+
+      if (item && item.video) {
+        const d = ttVideo.duration;
+        if (d && isFinite(d)) {
+          let t = dragStartTime + dir * (dx / PX_PER_ROTATION) * d;
+          t = ((t % d) + d) % d;
+          ttVideo.currentTime = t;
+        }
+      } else {
+        setFrame(dragStartFrame + dir * Math.round(dx / PX_PER_FRAME));
+      }
       ttLastInput = performance.now();
     });
 
@@ -1240,12 +1278,16 @@ body {
       if (ttSpinLast === null) ttSpinLast = now;
       const dt = (now - ttSpinLast) / 1000;
       ttSpinLast = now;
-      if (ttOpen && !dragging && now - ttLastInput > 2000 && ttImages.length) {
-        ttSpinAccum += dt * SPIN_FPS;
-        if (ttSpinAccum >= 1) {
-          const steps = Math.floor(ttSpinAccum);
-          ttSpinAccum -= steps;
-          setFrame(ttFrame + steps);
+      if (ttOpen && !dragging && now - ttLastInput > 2000) {
+        const item = ttItems[ttIndex];
+        if (item && item.video) {
+          if (ttVideo.paused) ttVideo.play().catch(() => {});
+        } else if (ttImages.length) {
+          ttSpinAccum += dt * SPIN_FPS;
+          if (ttSpinAccum >= 1) {
+            ttSpinAccum = 0;
+            setFrame(ttFrame + 1); // one step max — never skip frames
+          }
         }
       } else {
         ttSpinAccum = 0;
