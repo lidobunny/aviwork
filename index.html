@@ -1223,6 +1223,14 @@ body {
     let dragMoved = false;
     const PX_PER_FRAME = 8;
     const PX_PER_ROTATION = 900; // px of drag for one full spin (video scenes)
+    let seekTarget = null;
+function seekTo(t) {
+  if (ttVideo.seeking) { seekTarget = t; return; }
+seekTo(t);
+}
+ttVideo.addEventListener('seeked', () => {
+  if (seekTarget !== null) { const t = seekTarget; seekTarget = null; ttVideo.currentTime = t; }
+});
 
     ttStage.addEventListener('pointerdown', e => {
       if (!ttOpen) return;
