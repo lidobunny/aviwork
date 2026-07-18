@@ -64,6 +64,18 @@
       "video": true,
       "fps": 24,
       "poster": "poster.webp"
+    },
+    {
+      "id": "the-furry-grove-2",
+      "title": "The Furry Grove - 2",
+      "desc": "A recent, work in progress, passion project. ",
+      "dir": "turntables/the-furry-grove-2",
+      "frames": 600,
+      "ext": "mp4",
+      "type": "scene",
+      "video": true,
+      "fps": 24,
+      "poster": "poster.webp"
     }
   ]
 }
