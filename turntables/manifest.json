@@ -100,6 +100,18 @@
       "video": true,
       "fps": 24,
       "poster": "poster.webp"
+    },
+    {
+      "id": "the-furry-grotto",
+      "title": "The Furry Grotto",
+      "desc": "An older world I learned a lot making. ",
+      "dir": "turntables/the-furry-grotto",
+      "frames": 600,
+      "ext": "mp4",
+      "type": "scene",
+      "video": true,
+      "fps": 24,
+      "poster": "poster.webp"
     }
   ]
 }
