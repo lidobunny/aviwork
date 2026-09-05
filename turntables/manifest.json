@@ -172,6 +172,18 @@
       "video": true,
       "fps": 24,
       "poster": "poster.webp"
+    },
+    {
+      "id": "the-furry-grotto-3",
+      "title": "The Furry Grotto - 3",
+      "desc": "",
+      "dir": "turntables/the-furry-grotto-3",
+      "frames": 700,
+      "ext": "mp4",
+      "type": "scene",
+      "video": true,
+      "fps": 24,
+      "poster": "poster.webp"
     }
   ]
 }
