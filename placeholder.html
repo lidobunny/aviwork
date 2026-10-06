@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Concert+One&display=swap" rel="stylesheet">
+  <title>Placeholder</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --sky-base:   #14142a;
+      --sky-deep:   #0c0c1c;
+      --horizon:    #9999ff;
+      --star-blue:  #7d8cff;
+      --nebula:     #3d3dcc;
+      --ink:        #e8e8f6;
+      --ink-dim:    rgba(232,232,246,0.65);
+      --panel:      rgba(30,30,58,0.72);
+      --panel-edge: rgba(153,153,255,0.22);
+    }
+
+    body {
+      font-family: 'Concert One', system-ui, sans-serif;
+      background: linear-gradient(180deg,
+        var(--sky-deep) 0%,
+        var(--sky-base) 45%,
+        #232347 80%,
+        #3a3a6e 100%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--panel-edge);
+      border-radius: 18px;
+      padding: 3rem 2.5rem;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 40px rgba(61,61,204,0.25);
+    }
+
+    h1 {
+      font-size: clamp(1.8rem, 5vw, 2.8rem);
+      margin-bottom: 0.75rem;
+      text-shadow: 0 0 18px rgba(125,140,255,0.45);
+    }
+
+    p {
+      color: var(--ink-dim);
+      line-height: 1.6;
+      margin-bottom: 1.75rem;
+    }
+
+    .back {
+      display: inline-block;
+      padding: 0.8rem 1.8rem;
+      border-radius: 999px;
+      background: var(--nebula);
+      border: 1px solid rgba(153,153,255,0.5);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.05rem;
+      text-decoration: none;
+      box-shadow: 0 0 24px rgba(61,61,204,0.45);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .back:hover,
+    .back:focus-visible {
+      background: #4a4ae0;
+      transform: translateY(-2px);
+      box-shadow: 0 0 34px rgba(61,61,204,0.75);
+    }
+
+    .back:active { transform: translateY(0); }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Placeholder</h1>
+    <p>Placeholder text. This page is a stand-in &mdash; swap the heading, this
+       paragraph, and the button label on the home page whenever the real thing
+       is ready.</p>
+    <a class="back" href="index.html">Back to the main page</a>
+  </div>
+
+</body>
+</html>
