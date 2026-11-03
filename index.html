@@ -808,6 +808,17 @@ body {
     </div>
   </main>
 
+  <section class="other-work" id="up-section" style="display:none">
+    <h2>Recent Updates</h2>
+    <div class="scroll-row-wrap">
+      <button class="scroll-arrow" id="up-prev" aria-label="Scroll left">&#8249;</button>
+      <div class="scroll-row" id="updates-gallery">
+
+      </div>
+      <button class="scroll-arrow" id="up-next" aria-label="Scroll right">&#8250;</button>
+    </div>
+  </section>
+
   <section class="other-work" id="tt-section" style="display:none">
     <h2>360° Examples</h2>
     <div class="scroll-row-wrap">
@@ -1180,6 +1191,7 @@ body {
     const ttClose = document.getElementById('tt-close');
 
     let ttItems = [];
+    const ttRows = { tt: [], up: [] };
     let ttIndex = 0;
     let ttOpen = false;
     let ttFrame = 0;
@@ -1194,26 +1206,40 @@ body {
       return item.video ? `${item.dir}/${item.poster || 'poster.webp'}` : frameURL(item, 0);
     }
 
-    fetch('turntables/manifest.json')
-      .then(r => r.ok ? r.json() : Promise.reject())
-      .then(data => {
-        ttItems = (data.items || []).filter(it => it.frames > 0);
-        if (!ttItems.length) return;
-        ttSection.style.display = '';
-        ttItems.forEach((item, i) => {
-          const a = document.createElement('a');
-          a.className = 'thumb';
-          a.href = thumbURL(item);
-          a.dataset.rowIndex = i;
-          const img = document.createElement('img');
-          img.src = thumbURL(item);
-          img.alt = item.title;
-          a.appendChild(img);
-          ttGallery.appendChild(a);
-        });
-        setupAutoRow(ttGallery, document.getElementById('tt-prev'), document.getElementById('tt-next'));
-      })
-      .catch(() => { });
+    function loadRow(url, key, section, row, prev, next) {
+      fetch(url)
+        .then(r => r.ok ? r.json() : Promise.reject())
+        .then(data => {
+          const items = (data.items || []).filter(it => it.frames > 0);
+          ttRows[key] = items;
+          if (!items.length) return;
+          section.style.display = '';
+          items.forEach((item, i) => {
+            const a = document.createElement('a');
+            a.className = 'thumb';
+            a.href = thumbURL(item);
+            a.dataset.rowIndex = i;
+            const img = document.createElement('img');
+            img.src = thumbURL(item);
+            img.alt = item.title;
+            a.appendChild(img);
+            row.appendChild(a);
+          });
+          if (row.scrollWidth > row.clientWidth) {
+            setupAutoRow(row, prev, next);
+          } else {
+            prev.style.visibility = next.style.visibility = 'hidden';
+            row.parentElement.style.justifyContent = 'center';
+          }
+        })
+        .catch(() => { });
+    }
+
+    const upGallery = document.getElementById('updates-gallery');
+    loadRow('turntables/manifest.json', 'tt', ttSection, ttGallery,
+      document.getElementById('tt-prev'), document.getElementById('tt-next'));
+    loadRow('updates/manifest.json', 'up', document.getElementById('up-section'), upGallery,
+      document.getElementById('up-prev'), document.getElementById('up-next'));
 
     function setFrame(i) {
       if (!ttImages.length) return;
@@ -1281,12 +1307,17 @@ body {
     }
 
 
-    ttGallery.addEventListener('click', e => {
-      const link = e.target.closest('.thumb');
-      if (!link) return;
-      e.preventDefault();
-      openTT(parseInt(link.dataset.rowIndex || '0', 10));
-    });
+    function onRowClick(key) {
+      return e => {
+        const link = e.target.closest('.thumb');
+        if (!link) return;
+        e.preventDefault();
+        ttItems = ttRows[key];
+        openTT(parseInt(link.dataset.rowIndex || '0', 10));
+      };
+    }
+    ttGallery.addEventListener('click', onRowClick('tt'));
+    upGallery.addEventListener('click', onRowClick('up'));
 
  
     let dragStartX = 0;

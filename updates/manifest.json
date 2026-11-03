@@ -1,0 +1,16 @@
+{
+  "items": [
+    {
+      "id": "furry-grotto-updates",
+      "title": "Furry Grotto Updates",
+      "desc": "No AI in this world.",
+      "dir": "updates/furry-grotto-updates",
+      "frames": 1694,
+      "ext": "mp4",
+      "type": "scene",
+      "video": true,
+      "fps": 20,
+      "poster": "poster.webp"
+    }
+  ]
+}
